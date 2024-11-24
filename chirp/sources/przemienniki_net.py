@@ -16,15 +16,17 @@
 import logging
 
 import requests
+import wx
 
 from chirp.drivers import generic_csv
 from chirp import errors
 from chirp.sources import base
 
+_ = wx.GetTranslation
 LOG = logging.getLogger(__name__)
 
 
-class Przemienniki(base.NetworkResultRadio):
+class PrzemiennikiNet(base.NetworkResultRadio):
     VENDOR = 'przemienniki.net'
 
     def get_label(self):
@@ -42,7 +44,7 @@ class Przemienniki(base.NetworkResultRadio):
                              stream=True)
             r.raise_for_status()
         except requests.exceptions.RequestException as e:
-            LOG.error('Failed to query przemienniki: %s' % e)
+            LOG.error('Failed to query przemienniki.net: %s' % e)
             status.send_fail(_('Unable to query'))
             return
         status.send_status(_('Parsing'), 20)
