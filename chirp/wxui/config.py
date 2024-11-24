@@ -158,6 +158,16 @@ class ChirpConfigProxy:
     def set_bool(self, key, value, section=None):
         self.set(key, str(bool(value)), section)
 
+    def get_str_list(self, key, section=None, default=[]):
+        val = self.get(key, section)
+        if val is None:
+            return default
+        else:
+            return val.split(',')
+
+    def set_str_list(self, key, value, section=None):
+        self.set(key, ','.join(value), section)
+
     def is_defined(self, key, section=None):
         return self._config.is_defined(key, section or self._section)
 
